@@ -39,4 +39,5 @@ public class LeaveRequestService {
     public List<LeaveRequest> getLeaveRequestsByEmployee(Employee employee) {
         return leaveRequestRepository.findByEmployee(employee);
     }
+    
 }

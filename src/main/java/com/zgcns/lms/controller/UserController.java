@@ -1,5 +1,7 @@
 package com.zgcns.lms.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class UserController {
 	public String addUser(@RequestBody User user) {
 		return userService.addUser(user);
 	
-	}
+	}	
 	
 	@PostMapping("/authuser")
 	public String authenticateUser(@RequestBody User user) {
@@ -46,4 +48,6 @@ public class UserController {
 	public User UpdatedUser(@PathVariable("userId") long userId, @RequestBody User user) {
 		return userService.Updateuser(userId, user);
 	}
+	
+
 }

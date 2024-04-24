@@ -13,7 +13,7 @@ import com.zgcns.lms.model.User;
 public interface UserRepository extends JpaRepository<User,Long> {
  Optional<User> findByUsername(String username);
  
- Boolean existsByEmail(String username);
+ 
  
  @Override
 	default long count() {
