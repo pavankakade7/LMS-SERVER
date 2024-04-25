@@ -26,7 +26,7 @@ public String authenticateUser(User user)throws UserNotFoundException
 	 {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		
-		 Optional<User> userOptional= userRepository.findByUsername(user.getUsername());
+		 Optional<User> userOptional= userRepository.findByEmail(user.getEmail());
 		 if(userOptional.isPresent()) {
 			 
 			 User databaseUser = userOptional.get();
@@ -50,7 +50,7 @@ public String authenticateUser(User user)throws UserNotFoundException
 	 	user.setPassword(encryptedPassword);
 	 	
 	 	User addUser = userRepository.save(user);
-		return addUser.getUsername()+ " added to database successfully";
+		return addUser.getEmail()+ " added to database successfully";
  }
  
 
@@ -58,7 +58,7 @@ public String authenticateUser(User user)throws UserNotFoundException
  public User Updateuser(Long userId, User user) {
         User  updatedUser= userRepository.findById(userId).get();
         
-        updatedUser.setUsername(user.getUsername());
+        updatedUser.setEmail(user.getEmail());
         updatedUser.setPassword(user.getPassword());
     
         userRepository.save(updatedUser);

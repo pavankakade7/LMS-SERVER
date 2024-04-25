@@ -28,8 +28,8 @@ public class User {
 	@Column(name = "lastName")
 	private String lastName;
 	
-	@Column(name = "username") // username is nothing but email id
-	private String username;
+	@Column(name = "email")
+	private String email;
 	
 	@Column(name = "password")
 	private String password;
@@ -65,12 +65,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -89,12 +89,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public User(Long userId, String firstName, String lastName, String username, String password, Set<Role> roles) {
+	public User(Long userId, String firstName, String lastName, String email, String password, Set<Role> roles) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.roles = roles;
 	}
@@ -106,8 +106,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
-				+ username + ", password=" + password + ", roles=" + roles + "]";
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", roles=" + roles + "]";
 	}
 
 	
