@@ -2,11 +2,13 @@ package com.zgcns.lms.services;
 
 
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Service;
 
 import com.zgcns.lms.exception.UserNotFoundException;
@@ -22,7 +24,7 @@ public class UserService {
  private UserRepository userRepository;
 
 
-public String authenticateUser(User user)throws UserNotFoundException
+public ResponseEntity<Map<String, String>> authenticateUser(User user)throws UserNotFoundException
 	 {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		
@@ -32,11 +34,16 @@ public String authenticateUser(User user)throws UserNotFoundException
 			 User databaseUser = userOptional.get();
 			 if(bCryptPasswordEncoder.matches(user.getPassword(),databaseUser.getPassword()))
 			 {
-				 return "Autheticated User";
-			 }
-			 else {
-				 return "Incorrect Password";
-			 }
+				 return ResponseEntity.ok(Map.of(
+		                    "email", databaseUser.getEmail(),
+		                    "role", databaseUser.getRole()
+		                    
+		                ));
+		            } else {
+		                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+		                    Map.of("error", "Invalid password") // Consistent JSON error message
+		                );
+		            }
 		 }
 		 throw new UserNotFoundException("No user is not found for this email !!!");
 	 }
@@ -67,6 +74,22 @@ public String authenticateUser(User user)throws UserNotFoundException
  }
  
 
+ public User getUserByEmail(String email) throws UserNotFoundException {
+     return userRepository.findByEmail(email).orElseThrow(
+         () -> new UserNotFoundException("No user found with email: " + email)
+     );
+ }
+ 
+ 
+ public User getUserByUserId(Long userId, User user) {
+	 return userRepository.findById(userId).orElseThrow(
+	         () -> new UserNotFoundException("No user found with userId: " + userId));
+ }
+
+
+ public User getUserByFirstName(String firstName) {
+     return userRepository.findByFirstName(firstName);
+ }
  
 }
 

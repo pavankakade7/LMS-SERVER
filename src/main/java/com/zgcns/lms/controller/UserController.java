@@ -1,14 +1,18 @@
 package com.zgcns.lms.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zgcns.lms.model.User;
@@ -40,7 +44,7 @@ public class UserController {
 	}	
 	
 	@PostMapping("/authuser")
-	public String authenticateUser(@RequestBody User user) {
+	public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody User user) {
 		return userService.authenticateUser(user);
 	}
 	
@@ -49,5 +53,29 @@ public class UserController {
 		return userService.Updateuser(userId, user);
 	}
 	
+//	 @GetMapping("/by-email")
+//	    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+//	        try {
+//	            User user = userService.getUserByEmail(email);
+//	            return ResponseEntity.ok(user); // Return user data with HTTP 200
+//	        } catch (UserNotFoundException e) {
+//	            return ResponseEntity.status(404).body(null); // Return HTTP 404 if user not found
+//	        }
+//	    }
+	 
+	@GetMapping
+	 public User getUserByEmail(@RequestParam String email) {
+		 return userService.getUserByEmail(email);
+	 }
+	
+	@GetMapping("/{userId}")
+	public User getUserByUserId(@RequestParam long userId, @RequestBody User user) {
+		return userService.getUserByUserId(userId, user);
+	}
+	
+	@GetMapping("/firstname")
+	public User getUserByFirstName (@RequestParam String firstName) {
+		return  userService.getUserByFirstName(firstName);
 
+	}
 }
