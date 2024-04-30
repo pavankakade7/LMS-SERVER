@@ -59,7 +59,7 @@ public class LeaveRequestController {
         if (!leaveRequestService.getLeaveRequestById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        leaveRequest.setId(id);
+        leaveRequest.setLeaveId(id);
         LeaveRequest updatedLeaveRequest = leaveRequestService.saveLeaveRequest(leaveRequest);
         return new ResponseEntity<>(updatedLeaveRequest, HttpStatus.OK);
     }

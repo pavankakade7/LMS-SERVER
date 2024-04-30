@@ -1,6 +1,6 @@
 package com.zgcns.lms.model;
 
-public enum LeaveStatus {
+public enum RequestStatus {
 	PENDING,
 	APPROVED,
 	REJECTED

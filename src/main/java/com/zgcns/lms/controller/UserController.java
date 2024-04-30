@@ -1,5 +1,6 @@
 package com.zgcns.lms.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zgcns.lms.model.Employee;
 import com.zgcns.lms.model.User;
+import com.zgcns.lms.repositories.UserRepository;
 import com.zgcns.lms.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -78,4 +81,10 @@ public class UserController {
 		return  userService.getUserByFirstName(firstName);
 
 	}
+	
+	  @GetMapping("/allusers")
+	    public List<User> getAllUsers() {
+	        return userService.getAllUsers();
+	    }
+	    
 }

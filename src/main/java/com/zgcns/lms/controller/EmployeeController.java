@@ -64,7 +64,7 @@ public class EmployeeController {
         if (!employeeService.getEmployeeById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        employee.setId(id);
+        employee.setEmpId(id);
         Employee updatedEmployee = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }

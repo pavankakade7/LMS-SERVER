@@ -1,10 +1,18 @@
 package com.zgcns.lms.model;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,10 +29,13 @@ public class Employee {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column(name = "employee_id")
-	private Long id;
+	private Long empId;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "first_name")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
 	
 	@Column(name = "email")
 	private String email;
@@ -40,21 +51,37 @@ public class Employee {
 	
 	@Column(name = "title")
 	private String title;
+	
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LeaveRequest> leaveRequests;
 
-	public Long getId() {
-		return id;
+    @OneToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JsonBackReference// Specifies the join column
+	private User user;
+
+	public Long getEmpId() {
+		return empId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEmpId(Long empId) {
+		this.empId = empId;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -97,15 +124,35 @@ public class Employee {
 		this.title = title;
 	}
 
-	public Employee(Long id, String name, String email, String phone, String gender, String department, String title) {
+	public Set<LeaveRequest> getLeaveRequests() {
+		return leaveRequests;
+	}
+
+	public void setLeaveRequests(Set<LeaveRequest> leaveRequests) {
+		this.leaveRequests = leaveRequests;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Employee(Long empId, String firstName, String lastName, String email, String phone, String gender,
+			String department, String title, Set<LeaveRequest> leaveRequests, User user) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.empId = empId;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
 		this.gender = gender;
 		this.department = department;
 		this.title = title;
+		this.leaveRequests = leaveRequests;
+		this.user = user;
 	}
 
 	public Employee() {
@@ -115,13 +162,14 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", gender=" + gender
-				+ ", department=" + department + ", title=" + title + "]";
+		return "Employee [empId=" + empId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phone=" + phone + ", gender=" + gender + ", department=" + department + ", title=" + title
+				+ ", leaveRequests=" + leaveRequests + ", user=" + user + "]";
 	}
 	
 	
 	
-
+    
 	
 	
 	
