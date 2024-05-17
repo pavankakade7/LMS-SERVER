@@ -40,4 +40,8 @@ public class LeaveRequestService {
         return leaveRequestRepository.findByEmployee(employee);
     }
     
+    public List<LeaveRequest>getAllLeaveRequestByEmployeeId(Long empId){
+    	return leaveRequestRepository.findAllByEmpId(empId);
+    }
+    
 }

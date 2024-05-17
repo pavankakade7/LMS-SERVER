@@ -52,13 +52,13 @@ public class Employee {
 	@Column(name = "title")
 	private String title;
 	
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<LeaveRequest> leaveRequests;
+//	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<LeaveRequest> leaveRequests;
 
-    @OneToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "userId")
-    @JsonBackReference// Specifies the join column
-	private User user;
+//    @OneToOne
+//	@JoinColumn(name = "user_id", referencedColumnName = "userId")
+//    @JsonBackReference// Specifies the join column
+//	private User user;
 
 	public Long getEmpId() {
 		return empId;
@@ -123,22 +123,22 @@ public class Employee {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+//
+//	public Set<LeaveRequest> getLeaveRequests() {
+//		return leaveRequests;
+//	}
+//
+//	public void setLeaveRequests(Set<LeaveRequest> leaveRequests) {
+//		this.leaveRequests = leaveRequests;
+//	}
 
-	public Set<LeaveRequest> getLeaveRequests() {
-		return leaveRequests;
-	}
-
-	public void setLeaveRequests(Set<LeaveRequest> leaveRequests) {
-		this.leaveRequests = leaveRequests;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public Employee(Long empId, String firstName, String lastName, String email, String phone, String gender,
 			String department, String title, Set<LeaveRequest> leaveRequests, User user) {
@@ -151,8 +151,8 @@ public class Employee {
 		this.gender = gender;
 		this.department = department;
 		this.title = title;
-		this.leaveRequests = leaveRequests;
-		this.user = user;
+//		this.leaveRequests = leaveRequests;
+//		this.user = user;
 	}
 
 	public Employee() {
@@ -164,7 +164,9 @@ public class Employee {
 	public String toString() {
 		return "Employee [empId=" + empId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", phone=" + phone + ", gender=" + gender + ", department=" + department + ", title=" + title
-				+ ", leaveRequests=" + leaveRequests + ", user=" + user + "]";
+//				+ ", leaveRequests=" + leaveRequests 
+//				+ ", user=" + user 
+				+ "]";
 	}
 
 	

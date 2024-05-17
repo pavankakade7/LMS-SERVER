@@ -40,11 +40,11 @@ public class User {
 	@Column(name = "role")
 	private String role;
 	
-	
-    @OneToOne(mappedBy = "user") 
-    @JsonIgnore
-    @JsonBackReference
-    private Employee employee;
+//	
+//    @OneToOne(mappedBy = "user") 
+//    @JsonIgnore
+//    @JsonBackReference
+//    private Employee employee;
 
 
 	public Long getUserId() {
@@ -107,14 +107,14 @@ public class User {
 	}
 
 
-	public Employee getEmployee() {
-		return employee;
-	}
-
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+//	public Employee getEmployee() {
+//		return employee;
+//	}
+//
+//
+//	public void setEmployee(Employee employee) {
+//		this.employee = employee;
+//	}
 
 
 	public User(Long userId, String firstName, String lastName, String email, String password, String role,
@@ -126,7 +126,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.employee = employee;
+//		this.employee = employee;
 	}
 
 
@@ -139,7 +139,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", role=" + role + ", employee=" + employee + "]";
+				+ ", password=" + password + ", role=" + role + 
+//				", employee=" + employee +
+				"]";
 	}
     
     

@@ -48,7 +48,7 @@ public class LeaveRequestController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @PostMapping("/{id}")
     public ResponseEntity<LeaveRequest> createLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
         LeaveRequest savedLeaveRequest = leaveRequestService.saveLeaveRequest(leaveRequest);
         return new ResponseEntity<>(savedLeaveRequest, HttpStatus.CREATED);
@@ -82,5 +82,16 @@ public class LeaveRequestController {
         List<LeaveRequest> leaveRequests = leaveRequestService.getLeaveRequestsByEmployee(employee.get());
         return new ResponseEntity<>(leaveRequests, HttpStatus.OK);
     }
+    
+    @GetMapping("empId/{empId}")
+    public ResponseEntity<List<LeaveRequest>> getAllLeaveRequestByEmployeeId(@PathVariable Long empId) {
+        List<LeaveRequest> leaveRequests = leaveRequestService.getAllLeaveRequestByEmployeeId(empId);
+        if (leaveRequests != null && !leaveRequests.isEmpty()) {
+            return new ResponseEntity<>(leaveRequests, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
 

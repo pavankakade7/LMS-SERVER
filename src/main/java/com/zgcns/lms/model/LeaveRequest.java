@@ -122,7 +122,14 @@ public class LeaveRequest {
 				+ leaveType + ", reason=" + reason + ", status=" + status + ", employee=" + employee + "]";
 	}
 		
-    
+	 public Long getEmployeeId() {
+	        // Check if employee is not null, then get empId
+	        if (employee != null) {
+	            return employee.getEmpId();
+	        } else {
+	            return null; // Or handle the case when employee is null
+	        }
+	    }
     
 	    
 	    

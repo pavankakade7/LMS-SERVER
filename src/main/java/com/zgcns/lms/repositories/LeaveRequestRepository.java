@@ -9,4 +9,6 @@ import com.zgcns.lms.model.LeaveRequest;
 
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
     List<LeaveRequest> findByEmployee(Employee employee);
+
+	List<LeaveRequest> findAllByEmpId(Long empId);
 }
