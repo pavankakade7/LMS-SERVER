@@ -41,7 +41,7 @@ public class LeaveRequestService {
     }
     
     public List<LeaveRequest>getAllLeaveRequestByEmployeeId(Long empId){
-    	return leaveRequestRepository.findAllByEmpId(empId);
+    	return leaveRequestRepository.findAllByEmployee_EmpId(empId);
     }
     
 }
