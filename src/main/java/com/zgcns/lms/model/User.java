@@ -1,122 +1,95 @@
 package com.zgcns.lms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_details")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userId")
-	private Long userId;
-	
-	@Column(name = "firstName")
-	private String firstName;
-	
-	@Column(name = "lastName")
-	private String lastName;
-	
-	@Column(name = "email")
-	private String email;
-	
-	@Column(name = "password")
-	private String password;
-//	
-//	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//	@JoinTable(name = "users_roles",
-//		joinColumns = @JoinColumn(name="user_id", referencedColumnName = "userId"),
-//		inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "roleId")
-//			)
-//	private Set<Role> roles;
-	@Column(name = "role")
-	private String role;
-	
-//	
-//    @OneToOne(mappedBy = "user") 
-//    @JsonIgnore
-//    @JsonBackReference
-//    private Employee employee;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
+    private Long userId;
 
+    @Column(name = "firstName")
+    private String firstName;
 
-	public Long getUserId() {
-		return userId;
-	}
+    @Column(name = "lastName")
+    private String lastName;
 
+    @Column(name = "email")
+    private String email;
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    @Column(name = "password")
+    private String password;
 
+    @Column(name = "role")
+    private String role;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Employee employee;
 
+    // Getters and Setters
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Employee getEmployee() {
+        return employee;
+    }
 
-
-	public String getRole() {
-		return role;
-	}
-
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-
-//	public Employee getEmployee() {
-//		return employee;
-//	}
-//
-//
-//	public void setEmployee(Employee employee) {
-//		this.employee = employee;
-//	}
-
-
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+    	
+ 	// Constructors.
+    
 	public User(Long userId, String firstName, String lastName, String email, String password, String role,
 			Employee employee) {
 		super();
@@ -126,28 +99,22 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.role = role;
-//		this.employee = employee;
+		this.employee = employee;
 	}
-
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
+	
+	
+	//toString
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", role=" + role + 
-//				", employee=" + employee +
-				"]";
+				+ ", password=" + password + ", role=" + role + ", employee=" + employee + "]";
 	}
-    
-    
-   
-	
 
-	
-	
+    
+    
 }
