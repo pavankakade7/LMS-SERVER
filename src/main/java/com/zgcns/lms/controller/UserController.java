@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 
 
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")
@@ -53,7 +53,7 @@ public class UserController {
 	
 	@PutMapping("/updateuser/{userId}")
 	public User UpdatedUser(@PathVariable("userId") long userId, @RequestBody User user) {
-		return userService.Updateuser(userId, user);
+		return userService.updateUser(userId, user);
 	}
 	
 //	 @GetMapping("/by-email")
@@ -72,8 +72,8 @@ public class UserController {
 	 }
 	
 	@GetMapping("/{userId}")
-	public User getUserByUserId(@RequestParam long userId, @RequestBody User user) {
-		return userService.getUserByUserId(userId, user);
+	public User getUserByUserId(@RequestParam long userId) {
+		return userService.getUserByUserId(userId);
 	}
 	
 	@GetMapping("/firstname")

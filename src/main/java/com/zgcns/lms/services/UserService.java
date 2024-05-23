@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zgcns.lms.exception.UserNotFoundException;
 import com.zgcns.lms.model.Employee;
@@ -16,25 +17,27 @@ import com.zgcns.lms.model.User;
 import com.zgcns.lms.repositories.EmployeeRepository;
 import com.zgcns.lms.repositories.UserRepository;
 
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-
 @Service
-@AllArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    public UserService(UserRepository userRepository, EmployeeRepository employeeRepository) {
+        this.userRepository = userRepository;
+        this.employeeRepository = employeeRepository;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
 
     @Transactional
     public User saveUser(User user) {
         Employee employee = user.getEmployee();
         if (employee == null) {
             employee = new Employee();
-            employee.setUser(user);
             user.setEmployee(employee);
+            employee.setUser(user);
         }
 
         employee.setFirstName(user.getFirstName());
@@ -46,10 +49,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public ResponseEntity<Map<String, String>> authenticateUser(User user) throws UserNotFoundException {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        // Find user by email
         Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
 
         if (userOptional.isEmpty()) {
@@ -73,24 +74,25 @@ public class UserService {
         ));
     }
 
+    @Transactional
     public String addUser(User user) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
-        User addUser = userRepository.save(user);
-        return addUser.getEmail() + " added to database successfully";
+        User savedUser = saveUser(user);
+        return savedUser.getEmail() + " added to database successfully";
     }
 
+    @Transactional
     public User updateUser(Long userId, User user) {
         User updatedUser = userRepository.findById(userId).orElseThrow(
             () -> new UserNotFoundException("No user found with userId: " + userId)
         );
 
         updatedUser.setEmail(user.getEmail());
-        updatedUser.setPassword(user.getPassword());
+        updatedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(updatedUser);
+        return saveUser(updatedUser);
     }
 
     public User getUserByEmail(String email) throws UserNotFoundException {
@@ -113,4 +115,3 @@ public class UserService {
         return userRepository.findAll();
     }
 }
-

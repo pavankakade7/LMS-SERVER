@@ -4,6 +4,7 @@ package com.zgcns.lms.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,8 +40,9 @@ public class LeaveRequest {
     @Enumerated(EnumType.STRING)
     private RequestStatus status = RequestStatus.PENDING;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id") // Foreign key to Employee
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
 	public Long getLeaveId() {
@@ -129,7 +131,25 @@ public class LeaveRequest {
 	            return null; 
 	        }
 	    }
-    
+	 
+	  public Long getEmpId() {
+	        return employee != null ? employee.getEmpId() : null;
+	    }
+
+	    public String getFirstName() {
+	        return employee != null ? employee.getFirstName() : null;
+	    }
+
+	    public String getLastName() {
+	        return employee != null ? employee.getLastName() : null;
+	    }
+
+	    public String getEmail() {
+	        return employee != null ? employee.getEmail() : null;
+	    }
+	 
+	
+	
 	    
 	    
 }

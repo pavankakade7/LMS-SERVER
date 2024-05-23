@@ -20,8 +20,9 @@ import com.zgcns.lms.model.Employee;
 import com.zgcns.lms.model.LeaveRequest;
 import com.zgcns.lms.services.EmployeeService;
 import com.zgcns.lms.services.LeaveRequestService;
+import com.zgcns.lms.services.UserService;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/leave-requests")
 public class LeaveRequestController {
@@ -29,11 +30,14 @@ public class LeaveRequestController {
     private final LeaveRequestService leaveRequestService;
 	@Autowired
     private final EmployeeService employeeService;
-
+	
+	@Autowired
+	private final UserService userService;
     
-    public LeaveRequestController(LeaveRequestService leaveRequestService, EmployeeService employeeService) {
+    public LeaveRequestController(LeaveRequestService leaveRequestService, EmployeeService employeeService, UserService userService) {
         this.leaveRequestService = leaveRequestService;
 		this.employeeService = employeeService;
+		this.userService = userService;
     }
 
     @GetMapping
@@ -48,7 +52,7 @@ public class LeaveRequestController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<LeaveRequest> createLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
         LeaveRequest savedLeaveRequest = leaveRequestService.saveLeaveRequest(leaveRequest);
         return new ResponseEntity<>(savedLeaveRequest, HttpStatus.CREATED);
@@ -56,10 +60,12 @@ public class LeaveRequestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LeaveRequest> updateLeaveRequest(@PathVariable Long id, @RequestBody LeaveRequest leaveRequest) {
-        if (!leaveRequestService.getLeaveRequestById(id).isPresent()) {
+        Optional<LeaveRequest> existingLeaveRequest = leaveRequestService.getLeaveRequestById(id);
+        if (!existingLeaveRequest.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        leaveRequest.setLeaveId(id);
+
+        leaveRequest.setLeaveId(id);  // Ensure the ID is set for updating
         LeaveRequest updatedLeaveRequest = leaveRequestService.saveLeaveRequest(leaveRequest);
         return new ResponseEntity<>(updatedLeaveRequest, HttpStatus.OK);
     }
@@ -92,5 +98,19 @@ public class LeaveRequestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
+//    @GetMapping("user/{userId}")
+//    public ResponseEntity<List<LeaveRequest>> getAllLeaveRequestByUserId(@PathVariable Long userId) {
+//       List<LeaveRequest> leaveRequests = leaveRequestService.getAllLeaveRequestByUserId(userId);
+//       if(leaveRequests != null  && !leaveRequests.isEmpty()) {
+//    	   return new ResponseEntity<>(leaveRequests, HttpStatus.OK);
+//    	   
+//       }else {
+//    	   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//       }
+//    }
+    
+    
+    
 
 }
